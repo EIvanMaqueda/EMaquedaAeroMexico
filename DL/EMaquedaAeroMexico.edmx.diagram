@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="459a84c33fa440c19f0ae50c3383e8d5" Name="Diagram1">
+        <EntityTypeShape EntityType="EMaquedaAeroMexicoModel.Destino" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EMaquedaAeroMexicoModel.Origen" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EMaquedaAeroMexicoModel.Pasajero" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EMaquedaAeroMexicoModel.PasajeroVuelo" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EMaquedaAeroMexicoModel.Vuelo" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="EMaquedaAeroMexicoModel.FK__Vuelo__IdDestino__1920BF5C" ManuallyRouted="false" />
+        <AssociationConnector Association="EMaquedaAeroMexicoModel.FK__Vuelo__IdOrigen__182C9B23" ManuallyRouted="false" />
+        <AssociationConnector Association="EMaquedaAeroMexicoModel.FK__PasajeroV__IdPas__1CF15040" ManuallyRouted="false" />
+        <AssociationConnector Association="EMaquedaAeroMexicoModel.FK__PasajeroV__IdVue__1BFD2C07" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EMaquedaAeroMexicoModel.Usuario" Width="1.5" PointX="5.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

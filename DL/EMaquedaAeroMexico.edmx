@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EMaquedaAeroMexicoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Destino">
+          <Key>
+            <PropertyRef Name="IdDestino" />
+          </Key>
+          <Property Name="IdDestino" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Origen">
+          <Key>
+            <PropertyRef Name="IdOrigen" />
+          </Key>
+          <Property Name="IdOrigen" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Pasajero">
+          <Key>
+            <PropertyRef Name="IdPasajero" />
+          </Key>
+          <Property Name="IdPasajero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PasajeroVuelo">
+          <Key>
+            <PropertyRef Name="idPasajeroVuelos" />
+          </Key>
+          <Property Name="idPasajeroVuelos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdVuelo" Type="int" />
+          <Property Name="IdPasajero" Type="int" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Vuelo">
+          <Key>
+            <PropertyRef Name="IdVuelo" />
+          </Key>
+          <Property Name="IdVuelo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroVuelo" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="IdOrigen" Type="varchar" MaxLength="2" />
+          <Property Name="IdDestino" Type="varchar" MaxLength="2" />
+          <Property Name="FechaSalida" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__PasajeroV__IdPas__1CF15040">
+          <End Role="Pasajero" Type="Self.Pasajero" Multiplicity="0..1" />
+          <End Role="PasajeroVuelo" Type="Self.PasajeroVuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pasajero">
+              <PropertyRef Name="IdPasajero" />
+            </Principal>
+            <Dependent Role="PasajeroVuelo">
+              <PropertyRef Name="IdPasajero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PasajeroV__IdVue__1BFD2C07">
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="0..1" />
+          <End Role="PasajeroVuelo" Type="Self.PasajeroVuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vuelo">
+              <PropertyRef Name="IdVuelo" />
+            </Principal>
+            <Dependent Role="PasajeroVuelo">
+              <PropertyRef Name="IdVuelo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vuelo__IdDestino__1920BF5C">
+          <End Role="Destino" Type="Self.Destino" Multiplicity="0..1" />
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Destino">
+              <PropertyRef Name="IdDestino" />
+            </Principal>
+            <Dependent Role="Vuelo">
+              <PropertyRef Name="IdDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vuelo__IdOrigen__182C9B23">
+          <End Role="Origen" Type="Self.Origen" Multiplicity="0..1" />
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Origen">
+              <PropertyRef Name="IdOrigen" />
+            </Principal>
+            <Dependent Role="Vuelo">
+              <PropertyRef Name="IdOrigen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="PasajeroAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="apellidos" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Reservacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idVuelo" Type="int" Mode="In" />
+          <Parameter Name="idPasajero" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UsuarioLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="VueloGetByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha1" Type="date" Mode="In" />
+          <Parameter Name="fecha2" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="EMaquedaAeroMexicoModelStoreContainer">
+          <EntitySet Name="Destino" EntityType="Self.Destino" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Origen" EntityType="Self.Origen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pasajero" EntityType="Self.Pasajero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PasajeroVuelo" EntityType="Self.PasajeroVuelo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vuelo" EntityType="Self.Vuelo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__PasajeroV__IdPas__1CF15040" Association="Self.FK__PasajeroV__IdPas__1CF15040">
+            <End Role="Pasajero" EntitySet="Pasajero" />
+            <End Role="PasajeroVuelo" EntitySet="PasajeroVuelo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PasajeroV__IdVue__1BFD2C07" Association="Self.FK__PasajeroV__IdVue__1BFD2C07">
+            <End Role="Vuelo" EntitySet="Vuelo" />
+            <End Role="PasajeroVuelo" EntitySet="PasajeroVuelo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vuelo__IdDestino__1920BF5C" Association="Self.FK__Vuelo__IdDestino__1920BF5C">
+            <End Role="Destino" EntitySet="Destino" />
+            <End Role="Vuelo" EntitySet="Vuelo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vuelo__IdOrigen__182C9B23" Association="Self.FK__Vuelo__IdOrigen__182C9B23">
+            <End Role="Origen" EntitySet="Origen" />
+            <End Role="Vuelo" EntitySet="Vuelo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EMaquedaAeroMexicoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Destino">
+          <Key>
+            <PropertyRef Name="IdDestino" />
+          </Key>
+          <Property Name="IdDestino" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Vueloes" Relationship="Self.FK__Vuelo__IdDestino__1920BF5C" FromRole="Destino" ToRole="Vuelo" />
+        </EntityType>
+        <EntityType Name="Origen">
+          <Key>
+            <PropertyRef Name="IdOrigen" />
+          </Key>
+          <Property Name="IdOrigen" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Vueloes" Relationship="Self.FK__Vuelo__IdOrigen__182C9B23" FromRole="Origen" ToRole="Vuelo" />
+        </EntityType>
+        <EntityType Name="Pasajero">
+          <Key>
+            <PropertyRef Name="IdPasajero" />
+          </Key>
+          <Property Name="IdPasajero" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PasajeroVueloes" Relationship="Self.FK__PasajeroV__IdPas__1CF15040" FromRole="Pasajero" ToRole="PasajeroVuelo" />
+        </EntityType>
+        <EntityType Name="PasajeroVuelo">
+          <Key>
+            <PropertyRef Name="idPasajeroVuelos" />
+          </Key>
+          <Property Name="idPasajeroVuelos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdVuelo" Type="Int32" />
+          <Property Name="IdPasajero" Type="Int32" />
+          <NavigationProperty Name="Pasajero" Relationship="Self.FK__PasajeroV__IdPas__1CF15040" FromRole="PasajeroVuelo" ToRole="Pasajero" />
+          <NavigationProperty Name="Vuelo" Relationship="Self.FK__PasajeroV__IdVue__1BFD2C07" FromRole="PasajeroVuelo" ToRole="Vuelo" />
+        </EntityType>
+        <EntityType Name="Vuelo">
+          <Key>
+            <PropertyRef Name="IdVuelo" />
+          </Key>
+          <Property Name="IdVuelo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroVuelo" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdOrigen" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="IdDestino" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="FechaSalida" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Destino" Relationship="Self.FK__Vuelo__IdDestino__1920BF5C" FromRole="Vuelo" ToRole="Destino" />
+          <NavigationProperty Name="Origen" Relationship="Self.FK__Vuelo__IdOrigen__182C9B23" FromRole="Vuelo" ToRole="Origen" />
+          <NavigationProperty Name="PasajeroVueloes" Relationship="Self.FK__PasajeroV__IdVue__1BFD2C07" FromRole="Vuelo" ToRole="PasajeroVuelo" />
+        </EntityType>
+        <Association Name="FK__Vuelo__IdDestino__1920BF5C">
+          <End Role="Destino" Type="Self.Destino" Multiplicity="0..1" />
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Destino">
+              <PropertyRef Name="IdDestino" />
+            </Principal>
+            <Dependent Role="Vuelo">
+              <PropertyRef Name="IdDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vuelo__IdOrigen__182C9B23">
+          <End Role="Origen" Type="Self.Origen" Multiplicity="0..1" />
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Origen">
+              <PropertyRef Name="IdOrigen" />
+            </Principal>
+            <Dependent Role="Vuelo">
+              <PropertyRef Name="IdOrigen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PasajeroV__IdPas__1CF15040">
+          <End Role="Pasajero" Type="Self.Pasajero" Multiplicity="0..1" />
+          <End Role="PasajeroVuelo" Type="Self.PasajeroVuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pasajero">
+              <PropertyRef Name="IdPasajero" />
+            </Principal>
+            <Dependent Role="PasajeroVuelo">
+              <PropertyRef Name="IdPasajero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PasajeroV__IdVue__1BFD2C07">
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="0..1" />
+          <End Role="PasajeroVuelo" Type="Self.PasajeroVuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vuelo">
+              <PropertyRef Name="IdVuelo" />
+            </Principal>
+            <Dependent Role="PasajeroVuelo">
+              <PropertyRef Name="IdVuelo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EMaquedaAeroMexicoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Destinoes" EntityType="Self.Destino" />
+          <EntitySet Name="Origens" EntityType="Self.Origen" />
+          <EntitySet Name="Pasajeroes" EntityType="Self.Pasajero" />
+          <EntitySet Name="PasajeroVueloes" EntityType="Self.PasajeroVuelo" />
+          <EntitySet Name="Vueloes" EntityType="Self.Vuelo" />
+          <AssociationSet Name="FK__Vuelo__IdDestino__1920BF5C" Association="Self.FK__Vuelo__IdDestino__1920BF5C">
+            <End Role="Destino" EntitySet="Destinoes" />
+            <End Role="Vuelo" EntitySet="Vueloes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vuelo__IdOrigen__182C9B23" Association="Self.FK__Vuelo__IdOrigen__182C9B23">
+            <End Role="Origen" EntitySet="Origens" />
+            <End Role="Vuelo" EntitySet="Vueloes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PasajeroV__IdPas__1CF15040" Association="Self.FK__PasajeroV__IdPas__1CF15040">
+            <End Role="Pasajero" EntitySet="Pasajeroes" />
+            <End Role="PasajeroVuelo" EntitySet="PasajeroVueloes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PasajeroV__IdVue__1BFD2C07" Association="Self.FK__PasajeroV__IdVue__1BFD2C07">
+            <End Role="Vuelo" EntitySet="Vueloes" />
+            <End Role="PasajeroVuelo" EntitySet="PasajeroVueloes" />
+          </AssociationSet>
+          <EntitySet Name="Usuarios" EntityType="EMaquedaAeroMexicoModel.Usuario" />
+          <FunctionImport Name="UsuarioLogin" ReturnType="Collection(EMaquedaAeroMexicoModel.UsuarioLogin_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PasajeroAdd">
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="apellidos" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="VueloGetByDate" ReturnType="Collection(EMaquedaAeroMexicoModel.VueloGetByDate_Result)">
+            <Parameter Name="fecha1" Mode="In" Type="DateTime" />
+            <Parameter Name="fecha2" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Reservacion">
+            <Parameter Name="idVuelo" Mode="In" Type="Int32" />
+            <Parameter Name="idPasajero" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="UsuarioLogin_Result">
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="VueloGetByDate_Result">
+          <Property Type="Int32" Name="IdVuelo" Nullable="false" />
+          <Property Type="String" Name="NumeroVuelo" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="IdOrigen" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="IdDestino" Nullable="true" MaxLength="2" />
+          <Property Type="DateTime" Name="FechaSalida" Nullable="true" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EMaquedaAeroMexicoModelStoreContainer" CdmEntityContainer="EMaquedaAeroMexicoEntities">
+          <EntitySetMapping Name="Destinoes">
+            <EntityTypeMapping TypeName="EMaquedaAeroMexicoModel.Destino">
+              <MappingFragment StoreEntitySet="Destino">
+                <ScalarProperty Name="IdDestino" ColumnName="IdDestino" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Origens">
+            <EntityTypeMapping TypeName="EMaquedaAeroMexicoModel.Origen">
+              <MappingFragment StoreEntitySet="Origen">
+                <ScalarProperty Name="IdOrigen" ColumnName="IdOrigen" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pasajeroes">
+            <EntityTypeMapping TypeName="EMaquedaAeroMexicoModel.Pasajero">
+              <MappingFragment StoreEntitySet="Pasajero">
+                <ScalarProperty Name="IdPasajero" ColumnName="IdPasajero" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PasajeroVueloes">
+            <EntityTypeMapping TypeName="EMaquedaAeroMexicoModel.PasajeroVuelo">
+              <MappingFragment StoreEntitySet="PasajeroVuelo">
+                <ScalarProperty Name="idPasajeroVuelos" ColumnName="idPasajeroVuelos" />
+                <ScalarProperty Name="IdVuelo" ColumnName="IdVuelo" />
+                <ScalarProperty Name="IdPasajero" ColumnName="IdPasajero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vueloes">
+            <EntityTypeMapping TypeName="EMaquedaAeroMexicoModel.Vuelo">
+              <MappingFragment StoreEntitySet="Vuelo">
+                <ScalarProperty Name="IdVuelo" ColumnName="IdVuelo" />
+                <ScalarProperty Name="NumeroVuelo" ColumnName="NumeroVuelo" />
+                <ScalarProperty Name="IdOrigen" ColumnName="IdOrigen" />
+                <ScalarProperty Name="IdDestino" ColumnName="IdDestino" />
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="EMaquedaAeroMexicoModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioLogin" FunctionName="EMaquedaAeroMexicoModel.Store.UsuarioLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EMaquedaAeroMexicoModel.UsuarioLogin_Result">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PasajeroAdd" FunctionName="EMaquedaAeroMexicoModel.Store.PasajeroAdd" />
+          <FunctionImportMapping FunctionImportName="VueloGetByDate" FunctionName="EMaquedaAeroMexicoModel.Store.VueloGetByDate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EMaquedaAeroMexicoModel.VueloGetByDate_Result">
+                <ScalarProperty Name="IdVuelo" ColumnName="IdVuelo" />
+                <ScalarProperty Name="NumeroVuelo" ColumnName="NumeroVuelo" />
+                <ScalarProperty Name="IdOrigen" ColumnName="IdOrigen" />
+                <ScalarProperty Name="IdDestino" ColumnName="IdDestino" />
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Reservacion" FunctionName="EMaquedaAeroMexicoModel.Store.Reservacion" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
